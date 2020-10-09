@@ -1,0 +1,16 @@
+v 4
+file . "ALU_tb_logical.vhd" "1d5d750758e9ef94b169e6f7c1defb6f3ea19ee7" "20201008174318.046":
+  entity alu_tb_logical at 1( 0) + 0 on 55;
+  architecture logical_operations of alu_tb_logical at 8( 108) + 0 on 56;
+file . "xor2.vhd" "2c52fc8a7cdfd90864ebe500b303ce41330dfad8" "20201008062259.520":
+  entity xor2 at 1( 0) + 0 on 15;
+  architecture xor_behaviour of xor2 at 12( 175) + 0 on 16;
+file . "and2.vhd" "a8b45fe4b7b0fbeff31c658baf0aa1984abcdb53" "20201008062248.998":
+  entity and2 at 1( 0) + 0 on 11;
+  architecture and_behaviour of and2 at 12( 175) + 0 on 12;
+file . "or2.vhd" "ce1d9ed8d7be88ecbe9698b0d4fc18e2511c569f" "20201008062256.940":
+  entity or2 at 1( 0) + 0 on 13;
+  architecture or_behaviour of or2 at 12( 173) + 0 on 14;
+file . "ALU.vhd" "19e523e3b3fac2cd470abfadedd346fae06c2313" "20201008062316.659":
+  entity alu at 1( 0) + 0 on 17;
+  architecture structural of alu at 10( 216) + 0 on 18;

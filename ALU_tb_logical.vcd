@@ -1,0 +1,19 @@
+$date
+  Fri Oct  9 01:43:26 2020
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module numeric_std $end
+$upscope $end
+$scope module alu_tb_logical $end
+$upscope $end
+$enddefinitions $end
+#0
