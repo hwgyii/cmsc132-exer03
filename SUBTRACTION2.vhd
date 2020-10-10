@@ -9,19 +9,19 @@ entity SUBTRACTION2 is
     );
 end entity SUBTRACTION2;
 
-architecture sub2_b of SUBTRACTION2 is
+architecture structural of SUBTRACTION2 is
 signal notj1,notj0,c_in,c_in2,c_in3,ans1,ans2 : std_logic;
     begin
-		U0 : entity work.not2(not_behavioral) port map(j1, notj1);
-		U1 : entity work.not2(not_behavioral) port map(j0, notj0);
-		U2  : entity work.and2(and_behavioral) port map(i1,notj1,c_in);
-		U3  : entity work.xor2(xor_behavioral) port map(i1,notj1,ans1);
-		U4  : entity work.xor2(xor_behavioral) port map(ans1,'1',k1);
-		U5  : entity work.and2(and_behavioral) port map(ans1,'1',c_in2);
-		U6  : entity work.xor2(xor_behavioral) port map(i0,notj0,ans2);
-		U7  : entity work.xor2(xor_behavioral) port map(c_in2,c_in,c_in3);
-		U8  : entity work.xor2(xor_behavioral) port map(c_in3,ans2,k0);
-		U9 : entity work.not2(not_behavioral) port map('1',c_out);
+		U0 : entity work.not2(not_behaviour) port map(j1, notj1);
+		U1 : entity work.not2(not_behaviour) port map(j0, notj0);
+		U2  : entity work.and2(and_behaviour) port map(i1,notj1,c_in);
+		U3  : entity work.xor2(xor_behaviour) port map(i1,notj1,ans1);
+		U4  : entity work.xor2(xor_behaviour) port map(ans1,'1',k1);
+		U5  : entity work.and2(and_behaviour) port map(ans1,'1',c_in2);
+		U6  : entity work.xor2(xor_behaviour) port map(i0,notj0,ans2);
+		U7  : entity work.xor2(xor_behaviour) port map(c_in2,c_in,c_in3);
+		U8  : entity work.xor2(xor_behaviour) port map(c_in3,ans2,k0);
+		U9 : entity work.not2(not_behaviour) port map('1',c_out);
 		
 
-end architecture sub2_b;
+end architecture structural;

@@ -21,6 +21,6 @@ begin
 	U8 : entity work.ADD(structural) port map (i0,i1,j0,j1,k0,k1,c_out);
 	U10 : entity work.SUBTRACTION1(structural) port map (i0,i1,j0,j1,k0,k1,c_out);
 	U12 : entity work.SUBTRACTION2(structural) port map (i0,i1,j0,j1,k0,k1,c_out);
-	U14 : entity work.INC(inc_b) port map (i0,i1,k0,k1,c_out);
+	U14 : entity work.INC(structural) port map (i0,i1,k0,k1,c_out);
 	
 end structural;
