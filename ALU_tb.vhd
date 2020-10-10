@@ -5,119 +5,97 @@ use IEEE.numeric_std.all;
 entity ALU_tb is
 end entity;
 
-architecture arithmetic_logic of ALU_tb is
+architecture test_bench of ALU_tb is
     signal s0, s1, s2, i0, i1, j0, j1, k0, k1, c_out : std_logic;
-
-    component ALU is
-        port (
-            s0, s1, s2 : in std_logic;
-            i0, i1, j0, j1 : in std_logic;
-            k0, k1, c_out : out std_logic
-        );
-    end component;
+    signal c_in : std_logic;
+    signal c_in2 : std_logic; 
     begin
-        uut: component ALU  port map (s0, s1, s2, i0, i1, j0, j1, k0, k1, c_out);
         process
-            variable error_count : integer := 0;
-            variable test_in : unsigned (3 downto 0);
-            variable selector_in : unsigned (2 downto 0);
-            variable k0_output : std_logic;
-            variable k1_output : std_logic;
-            variable c_out_output : std_logic;
+            variable selector : unsigned(2 downto 0);
+            variable test_in : unsigned(3 downto 0);
         begin
-            selector_in := B"000";
-            for select_loop in 0 to 7 loop
+            
+            selector := B"000";
 
-                -- SELECTORS
-                s0 <= selector_in(2);
-                s1 <= selector_in(1);
-                s2 <= selector_in(0);
+            --LOOP TO TEST ALL POSSIBLE LOGICAL OPERATIONS--
+            for selector_counter in 0 to 7 loop
+                --INITIALIZATION OF SELECTORS--
+                s0 <= selector(0);
+                s1 <= selector(1);
+                s2 <= selector(2);
 
                 test_in := B"0000";
-
-                for count in 0 to 15 loop
-
-                    -- GETTING THE TEST BENCH
+                
+                --LOOP TO TEST ALL POSSIBLE INPUTS--
+                for test_counter in 0 to 15 loop
+                    --INITIALIZATION OF INPUTS--
                     i0 <= test_in(3);
                     i1 <= test_in(2);
                     j0 <= test_in(1);
                     j1 <= test_in(0);
+                    wait for 1 ns;
+                    --AND--
+                    if s0 = '0' and s1 = '0' and s2 = '0' then
+                        k0 <= i0 and j0;
+                        k1 <= i1 and j1;
+                        c_out <= '0';
+
+                    --OR--
+                    elsif s0 = '0' and s1 = '0' and s2 = '1' then
+                        k0 <= i0 or j0;
+                        k1 <= i1 or j1;
+                        c_out <= '0';
                     
-                    -- LOGICAL
-                    if s0 = "0" then
-                        
-                        -- AND
-                        if s1 = "0" and s2 = "0" then
-                            k0_output := i0 and j0;
-                            k1_output := i1 and j1;
-                            c_out_output := 0;
-                        
-                        -- OR
-                        elsif s1 = "0" and s2 = "1" then
-                            k0_output := i0 or j0;
-                            k1_output := i1 or j1;
-                            c_out_output := 0;
+                    --XOR--
+                    elsif s0 = '0' and s1 = '1' and s2 = '0' then
+                        k0 <= i0 xor j0;
+                        k1 <= i1 xor j1;
+                        c_out <= '0';
 
-                        -- XOR
-                        elsif s1 = "1" and s2 = "0" then
-                            k0_output := i0 xor j0;
-                            k1_output := i1 xor j1;
-                            c_out_output := 0;
-                        
-                        -- NOT
-                        elsif s1 = "1" and s2 = "1" then
-                            k0_output := not i0;
-                            k1_output := not i1;
-                            c_out_output := 0;
-                        end if;
-                    -- ARITHMETIC
-                    -- if s0 = "1" then
-                        
-                    --     -- ADD 
-                    --     if s1 = "0" and s2 = "0" then
-                    --         k1_output := i1 + j1;
-                    --         if k1_output = 2 then
-                    --             k1_output := 0;
-                    --             k0_output := i0 + j0 + 1;
-                    --             if k0_output > 1 then
-                    --                 k0_output := k0 - 2;
-                    --                 c_out_output := 1;
-                    --             end if;
-                    --         end if;
+                    --NOT--
+                    elsif s0 = '0' and s1 = '1' and s2 = '1' then
+                        k0 <= not i0;
+                        k1 <= not i1;
+                        c_out <= '0';
+                    
+                    --ADDITION--
+                    elsif s0 = '1' and s1 = '0' and s2 = '0' then
+                        k1 <= i1 xor j1;
+                        c_in <= i1 and j1;
+                        k0 <= (i0 xor j0) xor c_in;
+                        c_out <= (i0 xor j0) and c_in;
+                    
+                    --SUB(1)--
+                    elsif s0 = '1' and s1 = '0' and s2 = '1' then
+                        c_in <= i1 and (not j1);
+                        c_in2 <= (i0 and (not j0)) and c_in;
+                        k1 <= (i1 xor (not j1)) xor c_in2;
+                        k0 <= ((i0 xor  (not j0)) xor c_in) xor c_in2;
+                        c_out <= '0';
 
-                    --     -- SUB(1)
-                    --     -- elsif s1 == "0" and s2 == "1" then
-                                                        
-                            
-                    --     -- SUB(2)
-                    --     -- elsif s1 == "1" and s2 == "0" then
-                        
+                    --SUB(2)--
+                    elsif s0 = '1' and s1 = '1' and s2 = '0' then
+                        k1 <= (i1 xor (not j1)) xor '1';
+                        c_in <= (i1 and (not j1)) and '1';
+                        k0 <= (i0 xor j0) xor c_in;
+                        c_out <= '0';
 
-                    --     -- INCREMENT
-                    --     elsif s1 = "1" and s2 = "1" then
-                    --         k1_output := i1 + 1;
-                    --         if k1_output = 2 then
-                    --             k1_ouput := 0;
-                    --             k0_output := i0 + 1;
-                    --             if k0_output = 2 then
-                    --                 k0_output := 0;
-                    --                 c_out_output := 1;
-                    --             else 
-                    --                 c_out_output := 0;
-                    --             end if;
-                    --         else
-                    --             k0_output := i0; 
-                    --             c_out_output := 0;
-                    --         end if;
-                    --     end if;
-                    --     test_in := test_in + 1;
-                    -- end if;
-                end if;
+                    --INCREMENT--
+                    elsif s0 = '1' and s1 = '1' and s2 = '1' then
+                        k1 <=  i1 xor '1';
+                        c_in <= i1 and '1';
+                        k0 <= i0 xor c_in;
+                        c_out <= c_in and i0;
+                    end if;
+                    
+                    test_in := test_in + 1;
                 end loop;
                 
-                selector_in := selector_in + 1;
-                end loop;
+                selector := selector + 1;
+            end loop;
 
             wait;
+
         end process;
-end architecture arithmetic_logic;
+
+end architecture;
